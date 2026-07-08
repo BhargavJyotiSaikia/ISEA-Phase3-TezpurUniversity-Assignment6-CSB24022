@@ -7,14 +7,10 @@ PORT = 5000
 
 client = None
 
-# -------------------- MAIN WINDOW --------------------
-
 root = tk.Tk()
 root.title("TCP Chat Client")
 root.geometry("750x500")
 root.resizable(False, False)
-
-# -------------------- LOGIN FRAME --------------------
 
 login_frame = tk.Frame(root)
 login_frame.pack(fill="both", expand=True)
@@ -43,7 +39,6 @@ status_label = tk.Label(
 )
 status_label.pack(pady=10)
 
-# -------------------- CHAT FRAME --------------------
 
 chat_frame = tk.Frame(root)
 
@@ -99,8 +94,6 @@ online_list = tk.Listbox(
 )
 online_list.pack(padx=10)
 
-# -------------------- RECEIVE --------------------
-
 def receive():
 
     while True:
@@ -150,7 +143,6 @@ def receive():
     except:
         pass
 
-# -------------------- CONNECT --------------------
 
 def connect_server():
 
@@ -216,7 +208,6 @@ def connect_server():
         daemon=True
     ).start()
 
-# -------------------- SEND MESSAGE --------------------
 
 def send_message():
     global client
@@ -241,7 +232,7 @@ def send_message():
     except Exception as e:
         print("ERROR:", e)
         messagebox.showerror("Error", str(e))
-# -------------------- DISCONNECT --------------------
+
 
 def disconnect():
 
@@ -257,14 +248,11 @@ def disconnect():
     root.destroy()
 
 
-# -------------------- WINDOW CLOSE --------------------
 
 def on_close():
 
     disconnect()
 
-
-# -------------------- BUTTON COMMANDS --------------------
 
 send_btn.config(command=send_message)
 
@@ -280,22 +268,15 @@ connect_btn = tk.Button(
 connect_btn.pack(pady=15)
 
 
-# -------------------- ENTER KEY --------------------
-
 message_entry.bind(
     "<Return>",
     lambda event: (send_message(), "break")[1]
 )
 
 
-# -------------------- WINDOW CLOSE EVENT --------------------
-
 root.protocol(
     "WM_DELETE_WINDOW",
     on_close
 )
-
-
-# -------------------- START GUI --------------------
 
 root.mainloop()
