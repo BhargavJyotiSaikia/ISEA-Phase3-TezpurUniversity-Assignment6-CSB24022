@@ -1,0 +1,11 @@
+timestamp,sender,receiver,message_type,message
+2026-07-15 12:18:11,admin,ALL,BROADCAST,Hello Everyone
+2026-07-15 12:18:31,bhargav,ALL,BROADCAST,Hi guys
+2026-07-15 12:20:57,admin,bhargav,PRIVATE,how are you?
+2026-07-15 12:21:27,bhargav,admin,PRIVATE,"i am fine, what about you?"
+2026-07-15 13:02:47,admin,ALL,BROADCAST,"Thank you guys, bye"
+2026-07-15 13:10:42,admin,ALL,BROADCAST,Hello Everyone!
+2026-07-15 13:17:23,admin,ALL,BROADCAST,Good Afternoon everyone
+2026-07-15 13:17:52,bhargav,ALL,BROADCAST,had lunch?
+2026-07-15 13:18:45,admin,bhargav,PRIVATE,"yeah, what about you"
+2026-07-15 13:19:03,bhargav,admin,PRIVATE,done
