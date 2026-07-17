@@ -160,55 +160,55 @@ The following security mechanisms were implemented.
 
 ## Server Startup
 
-![Server](screenshots/server_start.png)
+![Server](screenshots/server_initialization.png)
 
 ---
 
 ## Login Window
 
-![Login](screenshots/login.png)
+![Login](screenshots/login_interface.png)
 
 ---
 
 ## Successful Authentication
 
-![Login Success](screenshots/login_success.png)
+![Login Success](screenshots/successfull_authentication.png)
 
 ---
 
 ## Broadcast Messaging
 
-![Broadcast](screenshots/broadcast.png)
+![Broadcast](screenshots/broadcast_communication.png)
 
 ---
 
 ## Private Messaging
 
-![Private](screenshots/private_message.png)
+![Private](screenshots/private_messaging.png)
 
 ---
 
 ## Online Users
 
-![Users](screenshots/online_users.png)
+![Users](screenshots/online_users_list.png)
 
 ---
 
 ## Duplicate Login Prevention
 
-![Duplicate Login](screenshots/duplicate_login.png)
+![Duplicate Login](screenshots/duplicate_login_prevention.png)
 
 ---
 
 ## Authentication Failure
 
-![Authentication Failed](screenshots/login_failed.png)
+![Authentication Failed](screenshots/invalid_login.png)
 
 ---
 
 ## Account Blocking
 
-![Blocked](screenshots/account_blocked.png)
+![Blocked](screenshots/account_blocking.png)
 
 ---
 
@@ -226,25 +226,25 @@ The following security mechanisms were implemented.
 
 ## Wireshark – TCP Connection Establishment
 
-![Wireshark Login](screenshots/wireshark_connection.png)
+![Wireshark Login](screenshots/wireshark_server_initialization.png)
 
 ---
 
 ## Wireshark – Broadcast Communication
 
-![Broadcast](screenshots/wireshark_broadcast.png)
+![Broadcast](screenshots/wireshark_broadcast_messaging.png)
 
 ---
 
 ## Wireshark – Private Message Communication
 
-![Private](screenshots/wireshark_private.png)
+![Private](screenshots/wireshark_private_messaging.png)
 
 ---
 
 ## Wireshark – TCP Connection Termination
 
-![Termination](screenshots/wireshark_disconnect.png)
+![Termination](screenshots/wireshark_connection_termination.png)
 
 ---
 
