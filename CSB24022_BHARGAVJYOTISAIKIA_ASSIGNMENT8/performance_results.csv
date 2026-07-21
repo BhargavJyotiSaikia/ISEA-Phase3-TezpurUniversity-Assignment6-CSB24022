@@ -1,0 +1,4 @@
+clients,broadcast_messages,private_messages,avg_delay_ms,throughput_msgs_per_sec
+5,20,1,812.4,0.98
+8,32,2,1186.3,0.81
+10,40,2,1537.6,0.65

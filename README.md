@@ -1,133 +1,132 @@
-# Assignment 6 – GUI-Based Multi-Client Chat Application Using TCP
+# ISEAPhase3-TezpurUniversity-Assignment8
 
-**Student:** Bhargav Jyoti Saikia
-**Roll Number:** CSB24022
-**Program:** Networking Internship, Phase 3 – Tezpur University
+**Application Optimization, Scalability and Reliability**
+Networking Internship Program — Tezpur University
+Submitted by: **Bhargav Jyoti Saikia** (Roll No. CSB24022)
 
-## Objective
+## Overview
 
-Convert the terminal-based TCP chat application built in Assignment 5 into a graphical
-desktop application using Python's Tkinter library, while reusing the existing TCP server
-implementation without modifying its core networking logic. The application demonstrates
-GUI programming, event-driven design, multithreading for a responsive interface, broadcast
-and private messaging, live online-user tracking, and Wireshark-based verification of the
-underlying TCP communication.
+This assignment builds on the GUI-based multi-client TCP chat application from Assignment 7, focusing entirely on **optimization** rather than new features. The existing client-server implementation was enhanced for better connection management, reliability, scalability, and configuration management, and its performance was benchmarked before and after these changes using a Mininet `single,11` topology with 5, 8, and 10 concurrent clients.
 
-## Software Requirements
+The communication protocol, message formats, and core client/server structure from earlier assignments were left unchanged, as required.
 
-| Component | Purpose |
-|---|---|
-| Ubuntu Linux (VirtualBox) | Host OS for running the Mininet emulated network |
-| Python 3 | Programming language for the server and client |
-| Tkinter | Standard Python GUI toolkit used to build the client interface |
-| Socket Programming (`socket` module) | TCP client/server communication |
-| Mininet | Emulates the network topology (one server, four clients) |
-| Wireshark | Captures and analyzes TCP traffic on port 5000 |
-| Visual Studio Code | Code editor used for development |
+## Key Optimizations
 
-## Network Topology
+- **Connection Management** — automatic detection and cleanup of disconnected clients, resource release on disconnect, meaningful server-side log messages.
+- **Reliability** — automatic client reconnection with retry/backoff, graceful shutdown on both client and server, idle-session timeout with a visible countdown, structured exception handling for socket errors.
+- **Scalability** — thread-per-client server model with `threading.Lock`-protected shared state, single-pass broadcast with inline dead-client cleanup, verified stable at 10 concurrent clients.
+- **Configuration Management** — all tunable values (`PORT`, `SESSION_TIMEOUT`, `MAX_LOGIN_ATTEMPTS`, `LOGIN_BLOCK_DURATION`, `MAX_MESSAGE_SIZE`, etc.) centralized in `config.json`, loaded identically by both client and server.
+- **Performance Evaluation** — delay and throughput measured and logged to `performance_results.csv` at 5, 8, and 10 concurrent clients, visualized in `graphs/`.
 
-Tested using a Mininet single-switch topology with one server host and four client hosts:
+## Repository Structure
 
 ```
-sudo mn --topo single,5
+ISEAPhase3-TezpurUniversity-Assignment8/
+├── server.py                     # Optimized TCP chat server
+├── client_gui.py                 # Optimized Tkinter GUI client
+├── config.json                   # Centralized configuration
+├── performance_results.csv       # Delay/throughput results (5, 8, 10 clients)
+├── assignment8_capture.pcapng    # Wireshark capture (tcp.port == 5000)
+├── report.pdf                    # Full assignment report
+├── graphs/
+│   ├── Average_Delay_vs_Concurrent_Clients.png
+│   └── throughput_vs_clients.png
+└── screenshots/
+    ├── server_initialization.png
+    ├── users_list.png
+    ├── broadcast_messaging.png
+    ├── private_messaging.png
+    ├── session_timeout.png
+    ├── user_disconnected.png
+    ├── logout.png
+    ├── wireshark_broadcast_msg.png
+    └── wireshark_private_msg.png
 ```
 
-| Host | Role |
-|---|---|
-| h1 | Chat Server (`server.py`, listens on `0.0.0.0:5000`) |
-| h2 | Client A (`client_gui.py` – user "Bhargav") |
-| h3 | Client B (`client_gui.py` – user "Alice") |
-| h4 | Client C (`client_gui.py` – user "John") |
-| h5 | Client D (`client_gui.py` – user "Charlie") |
+## Setup and Usage
 
-All hosts connect through a single OVS switch (`s1`). Connectivity was verified inside the
-Mininet CLI using `nodes`, `net`, and `pingall` before starting the server and clients.
+### Requirements
+- Python 3
+- Mininet
+- Wireshark (for capture verification)
 
-## Execution Steps
+### Network Topology
 
-1. **Start Mininet** with the required topology:
-   ```
-   sudo mn --topo single,5
-   ```
-2. **Open terminals** for the server and each client:
-   ```
-   mininet> xterm h1 h2 h3 h4 h5
-   ```
-3. **Start the server** on h1:
-   ```
-   python3 server.py
-   ```
-4. **Start each client** on h2–h5:
-   ```
-   python3 client_gui.py
-   ```
-5. In each client's login window, enter the **Server IP** (`10.0.0.1`) and a **Username**,
-   then click **Connect**.
-6. Use the message box and **Send** button (or Enter key) to broadcast messages to all
-   connected users.
-7. Send a private message using:
-   ```
-   /msg <username> <message>
-   ```
-8. Click **Disconnect** (or close the window) to leave the chat cleanly.
-9. **Capture traffic** in Wireshark on the `s1-eth1` interface with the filter:
-   ```
-   tcp.port == 5000
-   ```
+```bash
+sudo mn --topo single,11
+```
 
-## Sample Screenshots
+### Running the Server
 
-**Login Window**
-![Login Window](screenshots/login.png)
+```bash
+python3 server.py
+```
 
-**Connection Established / Chat Window**
-![Connection](screenshots/connection_gui.png)
+The server reads all configuration from `config.json` and listens on the configured `HOST`/`PORT`.
 
-**Broadcast Messaging**
-![Broadcast Messaging](screenshots/broadcasting.png)
+### Running a Client
 
-**Private Messaging**
-![Private Messaging](screenshots/private_message.png)
+```bash
+python3 client_gui.py
+```
 
-**Online User List**
-![Online User List](screenshots/online_user_list.png)
+Enter the server IP, username, and password in the login window to connect.
 
-**User Joining**
-![User Join](screenshots/user_join.png)
+## Screenshots
 
-**User Leaving**
-![User Leave](screenshots/user_leave.png)
+### Server Initialization
+![Server Initialization](screenshots/server_initialization.png)
 
-**Wireshark – Connection Establishment**
-![Wireshark Connection](screenshots/wireshark_connection.png)
+### Online Users List
+![Online Users List](screenshots/users_list.png)
 
-**Wireshark – Broadcast Message Capture**
-![Wireshark Broadcast](screenshots/wireshark_broadcast.png)
+### Broadcast Messaging
+![Broadcast Messaging](screenshots/broadcast_messaging.png)
 
-**Wireshark – Private Message Capture**
-![Wireshark Private](screenshots/wireshark_private.png)
+### Private Messaging
+![Private Messaging](screenshots/private_messaging.png)
 
-**Wireshark – Client Disconnection (FIN/ACK)**
-![Wireshark Disconnection](screenshots/wireshark_disconnection.png)
+### Session Timeout Handling
+![Session Timeout](screenshots/session_timeout.png)
 
-## Implementation Overview
+### Client Disconnection (Server Log)
+![User Disconnected](screenshots/user_disconnected.png)
 
-- **`server.py`** — Reused from Assignment 5 with no changes to its core logic. Accepts
-  multiple TCP connections, spawns one handler thread per client, and maintains a shared
-  `clients` dictionary protected by a `threading.Lock`. Supports broadcast messaging,
-  private messaging (`/msg <username> <message>`), an online-user broadcast (`ONLINE:` prefixed
-  list), and CSV-based chat history logging.
-- **`client_gui.py`** — New GUI front end built with Tkinter. Presents a **login window**
-  (Server IP + Username + Connect button) followed by a **chat window** containing a
-  scrollable, read-only chat log (`ScrolledText`), a message entry box with Enter-to-send,
-  a **Send** button, a **Disconnect** button, and a live **Online Users** `Listbox`.
-- **Background threading** — A dedicated daemon thread runs `receive()`, continuously
-  calling `client.recv()` and updating the GUI (chat log or online-user list) as messages
-  arrive, so the blocking socket call never freezes the Tkinter main loop.
-- **Protocol reuse** — The GUI client speaks the exact same wire protocol as the
-  Assignment 5 terminal client (plain-text messages, `/msg`, `/quit`, and `ONLINE:` status
-  updates), so the server required no changes.
-- **Verification** — Functionality was tested with four simultaneous GUI clients inside
-  Mininet, and Wireshark captures on `tcp.port == 5000` confirmed correct TCP handshake,
-  message delivery, and connection teardown (FIN/ACK) at the packet level.
+### Logout (Server Log)
+![Logout](screenshots/logout.png)
+
+### Wireshark — Broadcast Message Capture
+![Wireshark Broadcast](screenshots/wireshark_broadcast_msg.png)
+
+### Wireshark — Private Message Capture
+![Wireshark Private](screenshots/wireshark_private_msg.png)
+
+## Performance Graphs
+
+### Average Delay vs Concurrent Clients
+![Average Delay vs Concurrent Clients](graphs/Average_Delay_vs_Concurrent_Clients.png)
+
+### Throughput vs Concurrent Clients
+![Throughput vs Concurrent Clients](graphs/throughput_vs_clients.png)
+
+## Performance Summary
+
+| Concurrent Clients | Broadcast Msgs | Private Msgs | Avg Delay (ms) | Throughput (msg/sec) |
+|---|---|---|---|---|
+| 5  | 20 | 1 | 812.4  | 0.98 |
+| 8  | 32 | 2 | 1186.3 | 0.81 |
+| 10 | 40 | 2 | 1537.6 | 0.65 |
+
+As concurrent clients increase, average delay rises and throughput falls, indicating the sequential, lock-protected broadcast loop as the primary bottleneck at higher client counts — noted as the area to address for scaling beyond 10 users.
+
+## Wireshark Verification
+
+Traffic was captured on the switch interface using the filter `tcp.port == 5000`, confirming:
+- Correct TCP three-way handshake for every new client connection.
+- Broadcast messages fanned out identically to all connected clients.
+- Private messages routed point-to-point to only the intended recipient.
+- Clean FIN/ACK teardown on client disconnect.
+
+## Report
+
+See `report.pdf` for the full write-up, including scalability/reliability implementation details, graph analysis, Wireshark verification, and challenges faced.
